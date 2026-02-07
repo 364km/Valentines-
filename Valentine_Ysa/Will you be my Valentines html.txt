@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine 💌</title>
+
+  <!-- Elegant Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffe6eb, #fff);
+      font-family: 'Playfair Display', serif;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #c9184a;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 80px;
+    }
+
+    button {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      position: absolute;
+    }
+
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+      left: 10%;
+      bottom: 0;
+      box-shadow: 0 8px 20px rgba(255,77,109,0.4);
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.1);
+    }
+
+    #noBtn {
+      background: #adb5bd;
+      color: white;
+      left: 55%;
+      bottom: 0;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: float 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0) translateX(0); }
+      to { transform: translateY(-110vh) translateX(40px); opacity: 0; }
+    }
+
+    /* Letter style */
+    .letter {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #fff0f5;
+      border: 3px solid #ff4d6d;
+      border-radius: 25px;
+      padding: 30px 25px;
+      max-width: 400px;
+      text-align: center;
+      color: #c9184a;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      z-index: 100;
+      transition: transform 0.7s ease-in-out;
+    }
+
+    .letter.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .letter p {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .letter.show p {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .closeBtn {
+      display: inline-block;
+      margin-top: 15px;
+      background: #ff4d6d;
+      color: white;
+      border-radius: 20px;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .closeBtn:hover {
+      transform: scale(1.1);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Background music -->
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <h1>Pwede ba kitang maging Valentine, <span id="name">Ysa</span>? 💖</h1>
+    <p>
+      Hindi ito isang tanong na basta-basta lang.  
+      Galing ito sa pusong handang pumili sa’yo araw-araw.
+    </p>
+
+    <div class="buttons">
+      <button id="yesBtn">OO 💘</button>
+      <button id="noBtn">Hindi 🙈</button>
+    </div>
+  </div>
+
+  <!-- Big Letter -->
+  <div class="letter" id="letter">
+    <p>Mahal kong <span id="letterName">Ysa</span>, 💌</p>
+    <p>Simula nang makilala kita, alam kong espesyal ka sa akin.</p>
+    <p>Ang bawat ngiti mo ay nagbibigay saya sa aking mundo.</p>
+    <p>Sana tanggapin mo ang munting liham na ito mula sa puso ko. 💖</p>
+    <div class="closeBtn" onclick="closeLetter()">Isara</div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const letter = document.getElementById("letter");
+
+    // NO button behavior: fly away when hover or click
+    noBtn.addEventListener("mouseover", moveButton);
+    noBtn.addEventListener("click", moveButton);
+
+    function moveButton() {
+      const x = Math.random() * window.innerWidth - window.innerWidth/2;
+      const y = Math.random() * window.innerHeight - window.innerHeight/2;
+      const scale = (Math.random() * 0.5 + 0.5).toFixed(2);
+      noBtn.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    }
+
+    // YES button behavior: show big letter with animation
+    yesBtn.addEventListener("click", () => {
+      letter.classList.add("show");
+      const lines = letter.querySelectorAll("p");
+      lines.forEach((line, i) => {
+        setTimeout(() => {
+          line.style.opacity = 1;
+          line.style.transform = "translateY(0)";
+        }, i * 400); // delay for each line
+      });
+    });
+
+    function closeLetter() {
+      letter.classList.remove("show");
+      const lines = letter.querySelectorAll("p");
+      lines.forEach(line => {
+        line.style.opacity = 0;
+        line.style.transform = "translateY(20px)";
+      });
+    }
+
+    // floating hearts
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💗";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }, 500);
+  </script>
+
+</body>
+</html>
